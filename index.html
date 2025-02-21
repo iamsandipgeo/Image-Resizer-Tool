@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Resizer Tool - Home</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1>Image Resizer Tool</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <h2>Resize Your Images Easily</h2>
+            <p>Upload your image, adjust the size, and download it in your desired format.</p>
+
+            <!-- File Upload Section -->
+            <div class="upload-section">
+                <label for="file-input" class="upload-label">
+                    <i class="fas fa-upload"></i> Choose Image
+                </label>
+                <input type="file" id="file-input" accept="image/*">
+            </div>
+
+            <!-- Image Preview -->
+            <div class="image-preview" id="image-preview">
+                <img id="preview" src="#" alt="Image Preview">
+                <div class="image-size" id="image-size"></div>
+            </div>
+
+            <!-- Resize Options -->
+            <div class="resize-options">
+                <div>
+                    <label for="width">Width:</label>
+                    <input type="number" id="width" placeholder="Width (px)">
+                </div>
+                <div>
+                    <label for="height">Height:</label>
+                    <input type="number" id="height" placeholder="Height (px)">
+                </div>
+                <div>
+                    <label for="unit">Unit:</label>
+                    <select id="unit">
+                        <option value="px">Pixels</option>
+                        <option value="cm">Centimeters</option>
+                        <option value="in">Inches</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="dpi">DPI:</label>
+                    <input type="number" id="dpi" placeholder="DPI" value="96">
+                </div>
+            </div>
+
+            <!-- Background Color Picker -->
+            <div class="background-color-picker">
+                <label for="bg-color">Background Color:</label>
+                <input type="color" id="bg-color" value="#ffffff">
+            </div>
+
+            <!-- Image Size Reduction/Enhancement -->
+            <div class="size-adjustment">
+                <label for="size-kb">Target Size (KB):</label>
+                <input type="number" id="size-kb" placeholder="Size in KB">
+            </div>
+
+            <!-- Download Options -->
+            <div class="download-options">
+                <label for="format">Download Format:</label>
+                <select id="format">
+                    <option value="png">PNG</option>
+                    <option value="jpeg">JPEG</option>
+                    <option value="jpg">JPG</option>
+                    <option value="webp">WEBP</option>
+                </select>
+            </div>
+
+            <!-- Download Button -->
+            <button class="download-btn" id="download-btn">
+                <i class="fas fa-download"></i> Download Image
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 <a href="https://github.com/iamsandipgeo" target="_blank">@iamsandipgeo</a>. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="assets/js/script.js"></script>
+</body>
+                          </html>
