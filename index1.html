@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Resizer Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: #444;
+        }
+
+        /* File Upload Section */
+        .upload-section {
+            margin-bottom: 2rem;
+        }
+
+        .upload-label {
+            display: inline-block;
+            background: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .upload-label:hover {
+            background: #0056b3;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        /* Image Preview */
+        .image-preview {
+            margin: 2rem 0;
+            display: none;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Resize Options */
+        .resize-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .resize-options label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .resize-options input,
+        .resize-options select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100px;
+        }
+
+        /* Background Color Picker */
+        .background-color-picker {
+            margin-bottom: 2rem;
+        }
+
+        .background-color-picker input {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Image Size Reduction/Enhancement */
+        .size-adjustment {
+            margin-bottom: 2rem;
+        }
+
+        .size-adjustment label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .size-adjustment input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100px;
+        }
+
+        /* Download Options */
+        .download-options {
+            margin-bottom: 2rem;
+        }
+
+        .download-options label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .download-options select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        /* Download Button */
+        .download-btn {
+            background: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #218838;
+        }
+
+        /* Image Size Display */
+        .image-size {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Resizer Tool</h1>
+
+        <!-- File Upload Section -->
+        <div class="upload-section">
+            <label for="file-input" class="upload-label">
+                <i class="fas fa-upload"></i> Choose Image
+            </label>
+            <input type="file" id="file-input" accept="image/*">
+        </div>
+
+        <!-- Image Preview -->
+        <div class="image-preview" id="image-preview">
+            <img id="preview" src="#" alt="Image Preview">
+            <div class="image-size" id="image-size"></div>
+        </div>
+
+        <!-- Resize Options -->
+        <div class="resize-options">
+            <div>
+                <label for="width">Width:</label>
+                <input type="number" id="width" placeholder="Width (px)">
+            </div>
+            <div>
+                <label for="height">Height:</label>
+                <input type="number" id="height" placeholder="Height (px)">
+            </div>
+            <div>
+                <label for="unit">Unit:</label>
+                <select id="unit">
+                    <option value="px">Pixels</option>
+                    <option value="cm">Centimeters</option>
+                    <option value="in">Inches</option>
+                </select>
+            </div>
+            <div>
+                <label for="dpi">DPI:</label>
+                <input type="number" id="dpi" placeholder="DPI" value="96">
+            </div>
+        </div>
+
+        <!-- Background Color Picker -->
+        <div class="background-color-picker">
+            <label for="bg-color">Background Color:</label>
+            <input type="color" id="bg-color" value="#ffffff">
+        </div>
+
+        <!-- Image Size Reduction/Enhancement -->
+        <div class="size-adjustment">
+            <label for="size-kb">Target Size (KB):</label>
+            <input type="number" id="size-kb" placeholder="Size in KB">
+        </div>
+
+        <!-- Download Options -->
+        <div class="download-options">
+            <label for="format">Download Format:</label>
+            <select id="format">
+                <option value="png">PNG</option>
+                <option value="jpeg">JPEG</option>
+                <option value="jpg">JPG</option>
+                <option value="webp">WEBP</option>
+            </select>
+        </div>
+
+        <!-- Download Button -->
+        <button class="download-btn" id="download-btn">
+            <i class="fas fa-download"></i> Download Image
+        </button>
+    </div>
+
+    <script>
+        // JavaScript for Image Resizer Tool
+        const fileInput = document.getElementById('file-input');
+        const imagePreview = document.getElementById('image-preview');
+        const previewImage = document.getElementById('preview');
+        const widthInput = document.getElementById('width');
+        const heightInput = document.getElementById('height');
+        const unitSelect = document.getElementById('unit');
+        const dpiInput = document.getElementById('dpi');
+        const bgColorInput = document.getElementById('bg-color');
+        const formatSelect = document.getElementById('format');
+        const sizeKbInput = document.getElementById('size-kb');
+        const downloadBtn = document.getElementById('download-btn');
+        const imageSizeDisplay = document.getElementById('image-size');
+
+        let originalImage = null;
+
+        // Load image when file is selected
+        fileInput.addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImage.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    originalImage = new Image();
+                    originalImage.src = e.target.result;
+
+                    // Display image size
+                    const fileSize = (file.size / 1024).toFixed(2); // Convert to KB
+                    imageSizeDisplay.textContent = `Image Size: ${fileSize} KB`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Function to adjust image quality to match target size
+        function adjustQualityToTargetSize(canvas, mimeType, targetSizeKB) {
+            let quality = 1.0;
+            let step = 0.1;
+            let dataUrl;
+
+            do {
+                dataUrl = canvas.toDataURL(mimeType, quality);
+                const fileSizeKB = (dataUrl.length / 1024).toFixed(2);
+
+                if (fileSizeKB <= targetSizeKB) break; // Stop if target size is reached
+
+                quality -= step; // Reduce quality
+            } while (quality > 0);
+
+            return dataUrl;
+        }
+
+        // Download resized image
+        downloadBtn.addEventListener('click', function () {
+            if (!originalImage) {
+                alert('Please upload an image first.');
+                return;
+            }
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            // Calculate dimensions based on unit
+            let width = parseInt(widthInput.value);
+            let height = parseInt(heightInput.value);
+            const unit = unitSelect.value;
+            const dpi = parseInt(dpiInput.value);
+
+            if (unit === 'cm') {
+                width = (width * dpi) / 2.54;
+                height = (height * dpi) / 2.54;
+            } else if (unit === 'in') {
+                width = width * dpi;
+                height = height * dpi;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
+
+            // Set background color
+            ctx.fillStyle = bgColorInput.value;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the image
+            ctx.drawImage(originalImage, 0, 0, width, height);
+
+            // Get the selected format
+            const format = formatSelect.value;
+            let mimeType = 'image/png';
+            if (format === 'jpeg' || format === 'jpg') mimeType = 'image/jpeg';
+            else if (format === 'webp') mimeType = 'image/webp';
+
+            // Adjust image quality to match target size
+            let dataUrl;
+            if (sizeKbInput.value) {
+                const targetSizeKB = parseFloat(sizeKbInput.value);
+                dataUrl = adjustQualityToTargetSize(canvas, mimeType, targetSizeKB);
+            } else {
+                dataUrl = canvas.toDataURL(mimeType);
+            }
+
+            // Create a download link
+            const link = document.createElement('a');
+            link.download = `resized-image.${format}`;
+            link.href = dataUrl;
+            link.click();
+
+            // Display the size of the downloaded image
+            const fileSize = (dataUrl.length / 1024).toFixed(2); // Convert to KB
+            imageSizeDisplay.textContent = `Downloaded Image Size: ${fileSize} KB`;
+        });
+    </script>
+</body>
+</html>
